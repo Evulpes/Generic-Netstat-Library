@@ -51,33 +51,32 @@ namespace Generic_Netstat_Library
 
                 //Increments the pointer to the row by the size of the struct.
                 rowPtr = (IntPtr)((long)rowPtr + Marshal.SizeOf(tabelRowArray[i]));
-
-                //If the below try/catch fails, the process has likely terminated since.
-                string processName;
-                try
-                {
-                    processName = Process.GetProcessById(tabelRowArray[i].dwOwningPid).ProcessName;
-                }
-                catch
-                {
-                    continue;
-                }
-
-                
-
             }
             return tabelRowArray;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tcpTableRow">The TCP Row which contains the connection to close.</param>
+        /// <returns>An NTSTATUS code.</returns>
         public static WinError.SeverityCode CloseConnection(Tcpmib.MIB_TCPROW_OWNER_PID tcpTableRow)
         {
+            //Sets the state value to delete.
             tcpTableRow.dwState = Tcpmib.TCPState.MIB_TCP_STATE_DELETE_TCB;
+
+            //Allocate a region for the row details to reside.
             IntPtr tcpRowPtr = Marshal.AllocHGlobal(Marshal.SizeOf(tcpTableRow));
+
+            //Marshal the array into memory.
             Marshal.StructureToPtr(tcpTableRow, tcpRowPtr, false);
 
+            //Overwrite the connection data.
             WinError.SeverityCode ntStatus = Iphlpapi.SetTcpEntry(tcpRowPtr);
 
+            //Free the memory region.
             Marshal.FreeHGlobal(tcpRowPtr);
 
+            
             return ntStatus;
         }
         public enum TableType
