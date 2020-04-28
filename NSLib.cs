@@ -9,6 +9,12 @@ namespace Generic_Netstat_Library
     public class NSLib : NativeMethods
     {
         private delegate WinError.SeverityCode GetTableMethod(out IntPtr tableType);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tablePtr">A pointer to the unmanaged memory where the table details reside.</param>
+        /// <param name="tableType">The type of table to Get (TCP/UDP).</param>
+        /// <returns>An array of MIB_UDPROW_OWNER_PID or MIB_TCPROW_OWNER_PID depending on the tableType parameter.</returns>
         public static dynamic GetExtendedTable(out IntPtr tablePtr, TableType tableType = TableType.TCP)
         {
             //Create an empty delegate for the TCP, or UDP, query.
