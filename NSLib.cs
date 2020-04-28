@@ -9,8 +9,6 @@ namespace Generic_Netstat_Library
     public class NSLib : NativeMethods
     {
         private delegate WinError.SeverityCode GetTableMethod(out IntPtr tableType);
-
-        
         public static dynamic GetExtendedTable(out IntPtr tablePtr, TableType tableType = TableType.TCP)
         {
             //Create an empty delegate for the TCP, or UDP, query.
