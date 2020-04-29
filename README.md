@@ -7,7 +7,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Generic_Netstat_Library;
-namespace Temp
+namespace Example
 {
     class Program : NSLib
     {
